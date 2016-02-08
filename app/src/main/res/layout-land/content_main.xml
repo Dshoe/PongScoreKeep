@@ -61,4 +61,26 @@
         android:id="@+id/tvCurrentState"
         android:layout_above="@+id/tvPlayerLeftScore"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etPlayerLeftName"
+        android:layout_above="@+id/btnPlayerLeft"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Enter name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etPlayerRightName"
+        android:layout_alignTop="@+id/etPlayerLeftName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="Enter name" />
 </RelativeLayout>

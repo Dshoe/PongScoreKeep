@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -93,9 +94,11 @@ public class MainActivity extends AppCompatActivity {
         playerLeft = new Player();
         playerRight = new Player();
 
+        playerLeft.setEtName((EditText) findViewById(R.id.etPlayerLeftName));
         playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
         setScore(playerLeft, 0);
 
+        playerLeft.setEtName((EditText) findViewById(R.id.etPlayerRightName));
         playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
         setScore(playerRight, 0);
 

@@ -1,5 +1,6 @@
 package com.devinshoemaker.pongscorekeep;
 
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -10,6 +11,7 @@ import android.widget.TextView;
 public class Player {
     private int score = 0;
     private int winCount = 0;
+    private EditText etName;
     private TextView tvScore;
 
     public int getScore() {
@@ -26,6 +28,14 @@ public class Player {
 
     public void setWinCount(int winCount) {
         this.winCount = winCount;
+    }
+
+    public EditText getEtName() {
+        return etName;
+    }
+
+    public void setEtName(EditText etName) {
+        this.etName = etName;
     }
 
     public TextView getTvScore() {
