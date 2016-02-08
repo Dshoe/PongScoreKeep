@@ -11,6 +11,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Player playerLeft, playerRight;
+
+    private enum states {
+        NEW_GAME,
+        IN_PROGRESS
+    }
+
+    private states currentState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                resetGame();
             }
         });
+
+        setCurrentState(states.NEW_GAME);
     }
 
     @Override
@@ -49,4 +59,16 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void setCurrentState(states state) {
+        currentState = state;
+    }
+
+    private void resetGame() {
+        playerLeft = new Player();
+        playerRight = new Player();
+
+        setCurrentState(states.IN_PROGRESS);
+    }
+
 }
