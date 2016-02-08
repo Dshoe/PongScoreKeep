@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnPlayerLeft;
     private Button btnPlayerRight;
+    private TextView tvCurrentState;
 
     private Player playerLeft, playerRight;
 
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        tvCurrentState = (TextView) findViewById(R.id.tvCurrentState);
+
         setCurrentState(states.NEW_GAME);
     }
 
@@ -82,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setCurrentState(states state) {
         currentState = state;
+        tvCurrentState.setText(currentState.toString());
     }
 
     private void resetGame() {
