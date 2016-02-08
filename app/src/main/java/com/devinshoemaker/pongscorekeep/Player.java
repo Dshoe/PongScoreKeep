@@ -9,6 +9,7 @@ import android.widget.TextView;
  */
 public class Player {
     private int score = 0;
+    private int winCount = 0;
     private TextView tvScore;
 
     public int getScore() {
@@ -17,6 +18,14 @@ public class Player {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getWinCount() {
+        return winCount;
+    }
+
+    public void setWinCount(int winCount) {
+        this.winCount = winCount;
     }
 
     public TextView getTvScore() {

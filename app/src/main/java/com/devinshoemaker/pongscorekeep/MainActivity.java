@@ -111,7 +111,14 @@ public class MainActivity extends AppCompatActivity {
             setScore(scoringPlayer, scoringPlayer.getScore() + 1);
 
             if (isMatchPoint(scoringPlayer.getScore(), opposingPlayer.getScore())) {
-                setCurrentState(states.END_GAME);
+                scoringPlayer.setWinCount(scoringPlayer.getWinCount() + 1);
+
+                if (isGamePoint(scoringPlayer.getWinCount())) {
+                    setCurrentState(states.END_GAME);
+                } else {
+                    setScore(scoringPlayer, 0);
+                    setScore(opposingPlayer, 0);
+                }
             }
         }
     }
@@ -123,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isMatchPoint(int scoringPlayerScore, int opposingPlayerScore) {
         return (scoringPlayerScore >= 11 && (scoringPlayerScore - opposingPlayerScore) >= 2);
+    }
+
+    private boolean isGamePoint(int scoringPlayerScore) {
+        return (scoringPlayerScore == 2);
     }
 
 }
