@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private enum states {
         NEW_GAME,
-        IN_PROGRESS
+        IN_PROGRESS,
+        END_GAME
     }
 
     private states currentState;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlayerLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateScore(playerLeft);
+                updateScore(playerLeft, playerRight);
             }
         });
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlayerRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateScore(playerRight);
+                updateScore(playerRight, playerLeft);
             }
         });
 
@@ -105,15 +106,23 @@ public class MainActivity extends AppCompatActivity {
         return (requiredState.equals(currentState));
     }
 
-    private void updateScore(Player scoringPlayer) {
+    private void updateScore(Player scoringPlayer, Player opposingPlayer) {
         if (isAllowed(states.IN_PROGRESS)) {
             setScore(scoringPlayer, scoringPlayer.getScore() + 1);
+
+            if (isMatchPoint(scoringPlayer.getScore(), opposingPlayer.getScore())) {
+                setCurrentState(states.END_GAME);
+            }
         }
     }
 
     private void setScore(Player player, int score) {
         player.setScore(score);
         player.getTvScore().setText(String.valueOf(player.getScore()));
+    }
+
+    private boolean isMatchPoint(int scoringPlayerScore, int opposingPlayerScore) {
+        return (scoringPlayerScore >= 11 && (scoringPlayerScore - opposingPlayerScore) >= 2);
     }
 
 }
