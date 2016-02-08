@@ -107,8 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateScore(Player scoringPlayer) {
         if (isAllowed(states.IN_PROGRESS)) {
-            scoringPlayer.setScore(scoringPlayer.getScore() + 1);
-            scoringPlayer.getTvScore().setText(String.valueOf(scoringPlayer.getScore()));
+            setScore(scoringPlayer, scoringPlayer.getScore() + 1);
         }
     }
 
