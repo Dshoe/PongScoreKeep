@@ -91,8 +91,12 @@ public class MainActivity extends AppCompatActivity {
     private void resetGame() {
         playerLeft = new Player();
         playerRight = new Player();
+
         playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
+        setScore(playerLeft, 0);
+
         playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
+        setScore(playerRight, 0);
 
         setCurrentState(states.IN_PROGRESS);
     }
@@ -106,6 +110,11 @@ public class MainActivity extends AppCompatActivity {
             scoringPlayer.setScore(scoringPlayer.getScore() + 1);
             scoringPlayer.getTvScore().setText(String.valueOf(scoringPlayer.getScore()));
         }
+    }
+
+    private void setScore(Player player, int score) {
+        player.setScore(score);
+        player.getTvScore().setText(String.valueOf(player.getScore()));
     }
 
 }
