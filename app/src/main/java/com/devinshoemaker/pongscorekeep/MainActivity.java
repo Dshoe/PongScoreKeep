@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlayerRight;
     private TextView tvCurrentState;
 
-    private Player playerLeft, playerRight;
+    private Player playerLeft, playerRight, playerOne, playerTwo;
 
     private enum states {
         NEW_GAME,
@@ -91,14 +91,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void resetGame() {
-        playerLeft = new Player();
-        playerRight = new Player();
+        playerOne = new Player();
+        playerTwo = new Player();
+        playerLeft = playerOne;
+        playerRight = playerTwo;
 
         playerLeft.setEtName((EditText) findViewById(R.id.etPlayerLeftName));
         playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
         setScore(playerLeft, 0);
 
-        playerLeft.setEtName((EditText) findViewById(R.id.etPlayerRightName));
+        playerRight.setEtName((EditText) findViewById(R.id.etPlayerRightName));
         playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
         setScore(playerRight, 0);
 
@@ -119,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isGamePoint(scoringPlayer.getWinCount())) {
                     setCurrentState(states.END_GAME);
                 } else {
-                    setScore(scoringPlayer, 0);
-                    setScore(opposingPlayer, 0);
+                    switchSides();
                 }
             }
         }
@@ -137,6 +138,33 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isGamePoint(int scoringPlayerScore) {
         return (scoringPlayerScore == 2);
+    }
+
+    private void switchSides() {
+        String playerLeftName = playerLeft.getEtName().getText().toString();
+        String playerRightName = playerRight.getEtName().getText().toString();
+
+        playerLeft.setEtName(null);
+        playerLeft.setTvScore(null);
+        playerRight.setEtName(null);
+        playerRight.setTvScore(null);
+
+        playerOne = playerLeft;
+        playerTwo = playerRight;
+        playerLeft = playerTwo;
+        playerRight = playerOne;
+
+        playerLeft.setEtName((EditText) findViewById(R.id.etPlayerLeftName));
+        playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
+
+        playerRight.setEtName((EditText) findViewById(R.id.etPlayerRightName));
+        playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
+
+        playerLeft.getEtName().setText(playerRightName);
+        playerRight.getEtName().setText(playerLeftName);
+
+        setScore(playerLeft, 0);
+        setScore(playerRight, 0);
     }
 
 }
