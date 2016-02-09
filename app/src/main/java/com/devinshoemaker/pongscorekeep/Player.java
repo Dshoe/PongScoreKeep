@@ -1,5 +1,6 @@
 package com.devinshoemaker.pongscorekeep;
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -11,6 +12,9 @@ import android.widget.TextView;
 public class Player {
     private int score = 0;
     private int winCount = 0;
+    private boolean server = false;
+    private boolean startingServer = false;
+    private Button btn;
     private EditText etName;
     private TextView tvScore;
 
@@ -28,6 +32,30 @@ public class Player {
 
     public void setWinCount(int winCount) {
         this.winCount = winCount;
+    }
+
+    public boolean isServer() {
+        return server;
+    }
+
+    public void setServer(boolean server) {
+        this.server = server;
+    }
+
+    public boolean isStartingServer() {
+        return startingServer;
+    }
+
+    public void setStartingServer(boolean startingServer) {
+        this.startingServer = startingServer;
+    }
+
+    public Button getBtn() {
+        return btn;
+    }
+
+    public void setBtn(Button btn) {
+        this.btn = btn;
     }
 
     public EditText getEtName() {

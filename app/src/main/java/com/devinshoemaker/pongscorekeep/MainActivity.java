@@ -1,5 +1,6 @@
 package com.devinshoemaker.pongscorekeep;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
+    private int gameCount = 0;
+
     private Button btnPlayerLeft;
     private Button btnPlayerRight;
     private TextView tvCurrentState;
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private enum states {
         NEW_GAME,
+        SET_SERVER,
         IN_PROGRESS,
         END_GAME
     }
@@ -86,6 +90,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCurrentState(states state) {
+        if (state == states.SET_SERVER) {
+            playerLeft.getBtn().setText("Set server");
+            playerRight.getBtn().setText("Set server");
+        } else if (state == states.IN_PROGRESS) {
+            playerLeft.getBtn().setText("");
+            playerRight.getBtn().setText("");
+        }
         currentState = state;
         tvCurrentState.setText(currentState.toString());
     }
@@ -98,13 +109,21 @@ public class MainActivity extends AppCompatActivity {
 
         playerLeft.setEtName((EditText) findViewById(R.id.etPlayerLeftName));
         playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
+        playerLeft.setBtn((Button) findViewById(R.id.btnPlayerLeft));
+        playerLeft.getBtn().setText("");
+        playerLeft.getBtn().setBackgroundColor(Color.LTGRAY);
         setScore(playerLeft, 0);
 
         playerRight.setEtName((EditText) findViewById(R.id.etPlayerRightName));
         playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
+        playerRight.setBtn((Button) findViewById(R.id.btnPlayerRight));
+        playerRight.getBtn().setText("");
+        playerRight.getBtn().setBackgroundColor(Color.LTGRAY);
         setScore(playerRight, 0);
 
-        setCurrentState(states.IN_PROGRESS);
+        gameCount = 1;
+
+        setCurrentState(states.SET_SERVER);
     }
 
     private boolean isAllowed(states requiredState) {
@@ -117,13 +136,23 @@ public class MainActivity extends AppCompatActivity {
 
             if (isMatchPoint(scoringPlayer.getScore(), opposingPlayer.getScore())) {
                 scoringPlayer.setWinCount(scoringPlayer.getWinCount() + 1);
+                gameCount++;
 
                 if (isGamePoint(scoringPlayer.getWinCount())) {
                     setCurrentState(states.END_GAME);
                 } else {
                     switchSides();
                 }
+            } else if (((scoringPlayer.getScore() + opposingPlayer.getScore()) % 2) == 0) {
+                if (scoringPlayer.isServer())
+                    setServer(opposingPlayer, scoringPlayer);
+                else
+                    setServer(scoringPlayer, opposingPlayer);
             }
+        } else if (isAllowed(states.SET_SERVER)) {
+            setServer(scoringPlayer, opposingPlayer);
+            scoringPlayer.setStartingServer(true);
+            setCurrentState(states.IN_PROGRESS);
         }
     }
 
@@ -146,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
 
         playerLeft.setEtName(null);
         playerLeft.setTvScore(null);
+        playerLeft.setBtn(null);
         playerRight.setEtName(null);
         playerRight.setTvScore(null);
+        playerRight.setBtn(null);
 
         playerOne = playerLeft;
         playerTwo = playerRight;
@@ -156,15 +187,36 @@ public class MainActivity extends AppCompatActivity {
 
         playerLeft.setEtName((EditText) findViewById(R.id.etPlayerLeftName));
         playerLeft.setTvScore((TextView) findViewById(R.id.tvPlayerLeftScore));
+        playerLeft.setBtn((Button) findViewById(R.id.btnPlayerLeft));
 
         playerRight.setEtName((EditText) findViewById(R.id.etPlayerRightName));
         playerRight.setTvScore((TextView) findViewById(R.id.tvPlayerRightScore));
+        playerRight.setBtn((Button) findViewById(R.id.btnPlayerRight));
 
         playerLeft.getEtName().setText(playerRightName);
         playerRight.getEtName().setText(playerLeftName);
 
         setScore(playerLeft, 0);
         setScore(playerRight, 0);
+
+        if (gameCount == 2) {
+            if (playerLeft.isStartingServer())
+                setServer(playerRight, playerLeft);
+            else
+                setServer(playerLeft, playerRight);
+        } else {
+            if (playerLeft.isStartingServer())
+                setServer(playerLeft, playerRight);
+            else
+                setServer(playerRight, playerLeft);
+        }
+    }
+
+    private void setServer(Player server, Player nonServer) {
+        server.setServer(true);
+        server.getBtn().setBackgroundColor(Color.GREEN);
+        nonServer.getBtn().setBackgroundColor(Color.LTGRAY);
+        nonServer.setServer(false);
     }
 
 }
